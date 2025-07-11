@@ -1,0 +1,28 @@
+diff --git a/cmake/FetchDXVK.cmake b/cmake/FetchDXVK.cmake
+index f84de82..bbe9f73 100644
+--- a/cmake/FetchDXVK.cmake
++++ b/cmake/FetchDXVK.cmake
+@@ -9,8 +9,7 @@ else()
+ endif()
+ 
+ ExternalProject_Add(dxvk_git
+-    GIT_REPOSITORY "https://github.com/doitsujin/dxvk"
+-    GIT_TAG "v2.6.2"
++    URL file://@dxvk-git@
+     UPDATE_DISCONNECTED true
+     USES_TERMINAL_CONFIGURE true
+     USES_TERMINAL_BUILD true
+diff --git a/cmake/FetchPeParse.cmake b/cmake/FetchPeParse.cmake
+index df7879b..31a4b87 100644
+--- a/cmake/FetchPeParse.cmake
++++ b/cmake/FetchPeParse.cmake
+@@ -1,8 +1,7 @@
+ include(ExternalProject)
+ 
+ ExternalProject_Add(peparse_git
+-    GIT_REPOSITORY "https://github.com/trailofbits/pe-parse"
+-    GIT_TAG "v2.1.1"
++    URL file://@peparse-git@
+     UPDATE_DISCONNECTED true
+     USES_TERMINAL_CONFIGURE true
+     USES_TERMINAL_BUILD true
