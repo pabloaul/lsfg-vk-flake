@@ -37,7 +37,7 @@ in llvmPackages.stdenv.mkDerivation {
 
   # we need to unvendor dxvk and pe-parse which would normally be downloaded from git during buildtime in the cmakefiles
   patches = [
-    (replaceVars ./no-download.patch {
+    (replaceVars ./nix-cmake.patch {
       inherit dxvk-git peparse-git python3;
     })
   ];
