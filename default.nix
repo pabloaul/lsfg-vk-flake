@@ -1,51 +1,24 @@
 { lib
 , fetchFromGitHub
-, replaceVars
 , cmake
-, meson
 , ninja
-, SDL2
-, glslang
 , vulkan-headers
 , vulkan-loader
-, pkg-config
 , llvmPackages
-, python3
+, spirv-headers
 }: let
-
-  peparse-git = fetchFromGitHub {
-    owner = "trailofbits";
-    repo = "pe-parse";
-    rev = "v2.1.1";
-    hash = "sha256-WuG/OmzrXoH5O7+sSIdUVZP0aS63nuJwHgQfn12Q5xk=";
-    fetchSubmodules = true;
-  };
-
-  dxvk-git = fetchFromGitHub {
-    owner = "doitsujin";
-    repo = "dxvk";
-    rev = "v2.6.2";
-    hash = "sha256-nZEi9WYhpI0WaeguoZMV4nt+nfaErvgz5RNDyyZYCJA=";
-    fetchSubmodules = true;
-  };
 
 in llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
-  version = "0.0.31";
+  version = "unstable-2025-07-13-f998647";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "3ec418fd0f802f245bc31511d33c94a25d045ae8";
-    hash = "sha256-xMRrqKaqKxzOjEFcLas6nRgvIpaZ94ca9BZemEPsIbU=";
+    rev = "f998647d74051467e39de9de2df2ff9a5996db5f";
+    hash = "sha256-X708aKFz3wqSVYsMvCKsY7kqi+2LTewnoOMrXFPVEPY=";
+    fetchSubmodules = true;
   };
-
-  # we need to unvendor dxvk and pe-parse which would normally be downloaded from git during buildtime in the cmakefiles
-  patches = [
-    (replaceVars ./nix-cmake.patch {
-      inherit dxvk-git peparse-git python3;
-    })
-  ];
 
   cmakeFlags = [
     "-DCMAKE_BUILD_TYPE=Release"
@@ -57,17 +30,13 @@ in llvmPackages.stdenv.mkDerivation {
     llvmPackages.clang
     llvmPackages.libllvm # needed for release builds
     cmake
-    meson
     ninja
-    pkg-config
-    glslang
-    python3
   ];
 
   buildInputs = [
-    SDL2
     vulkan-headers
     vulkan-loader
+    spirv-headers
   ];
 
   meta = with lib; {
