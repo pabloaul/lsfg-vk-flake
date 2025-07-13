@@ -48,13 +48,14 @@ in llvmPackages.stdenv.mkDerivation {
   ];
 
   cmakeFlags = [
-    "-DCMAKE_BUILD_TYPE=Debug"
+    "-DCMAKE_BUILD_TYPE=Release"
   ];
 
   nativeBuildInputs = [
     # clang-tools needs to come before clang so it can locate Vulkan headers correctly
     llvmPackages.clang-tools
     llvmPackages.clang
+    llvmPackages.libllvm # needed for release builds
     cmake
     meson
     ninja
