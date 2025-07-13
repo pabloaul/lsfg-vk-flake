@@ -1,19 +1,16 @@
 { lib
 , fetchFromGitHub
 , replaceVars
-, srcOnly
 , cmake
 , meson
 , ninja
 , SDL2
 , glslang
-#, glfw
-, dxvk_2
 , vulkan-headers
 , vulkan-loader
 , pkg-config
 , llvmPackages
-#, overrideCC # lto
+, python3
 }: let
 
   peparse-git = fetchFromGitHub {
@@ -24,20 +21,13 @@
     fetchSubmodules = true;
   };
 
-  dxvk-git = srcOnly (dxvk_2.overrideAttrs (old: {
-    src = fetchFromGitHub {
-      owner = "doitsujin";
-      repo = "dxvk";
-      rev = "v2.6.2";
-      hash = "sha256-nZEi9WYhpI0WaeguoZMV4nt+nfaErvgz5RNDyyZYCJA=";
-      fetchSubmodules = true;
-    };
-  }));
-
-  # stdenv_lto = overrideCC llvmPackages.stdenv (llvmPackages.stdenv.cc.override {
-  #   inherit (llvmPackages) bintools;
-  # });
-  # this causes problems with dxvk-git which does not like llvm's ar...
+  dxvk-git = fetchFromGitHub {
+    owner = "doitsujin";
+    repo = "dxvk";
+    rev = "v2.6.2";
+    hash = "sha256-nZEi9WYhpI0WaeguoZMV4nt+nfaErvgz5RNDyyZYCJA=";
+    fetchSubmodules = true;
+  };
 
 in llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
@@ -48,31 +38,28 @@ in llvmPackages.stdenv.mkDerivation {
   # we need to unvendor dxvk and pe-parse which would normally be downloaded from git during buildtime in the cmakefiles
   patches = [
     (replaceVars ./no-download.patch {
-      dxvk-git = dxvk-git;
-      peparse-git = peparse-git;
+      inherit dxvk-git peparse-git python3;
     })
   ];
 
-  #cmakeFlags = [
-    #"-DCMAKE_BUILD_TYPE=Release"
-    #"-DCMAKE_INSTALL_PREFIX=${placeholder "out"}"
-    #"-DCMAKE_INTERPROCEDURAL_OPTIMIZATION=ON" # LTO
-  #];
+  cmakeFlags = [
+    "-DCMAKE_BUILD_TYPE=Debug"
+  ];
 
   nativeBuildInputs = [
-    #llvmPackages.clang-tools # https://github.com/NixOS/nixpkgs/issues/273875
-    #llvmPackages.libcxxClang # LTO: "ar: error: the 'o' modifier is only applicable to the 'x' operation"
-    #llvmPackages.bintools # LTO: "RANLIB-NOTFOUND, AR-NOTFOUND"
+    # clang-tools needs to come before clang so it can locate Vulkan headers correctly
+    llvmPackages.clang-tools
+    llvmPackages.clang
     cmake
     meson
     ninja
     pkg-config
+    glslang
+    python3
   ];
 
   buildInputs = [
-    dxvk-git
     SDL2
-    glslang
     vulkan-headers
     vulkan-loader
   ];

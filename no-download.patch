@@ -1,8 +1,8 @@
 diff --git a/cmake/FetchDXVK.cmake b/cmake/FetchDXVK.cmake
-index f84de82..bbe9f73 100644
+index f84de82..8721531 100644
 --- a/cmake/FetchDXVK.cmake
 +++ b/cmake/FetchDXVK.cmake
-@@ -9,8 +9,7 @@ else()
+@@ -9,12 +9,14 @@ else()
  endif()
  
  ExternalProject_Add(dxvk_git
@@ -12,6 +12,13 @@ index f84de82..bbe9f73 100644
      UPDATE_DISCONNECTED true
      USES_TERMINAL_CONFIGURE true
      USES_TERMINAL_BUILD true
+     BUILD_IN_SOURCE true
++    PATCH_COMMAND
++        sed -i -e "s|^#!.*python3|#!@python3@/bin/python3|" <SOURCE_DIR>/subprojects/libdisplay-info/tool/gen-search-table.py &&
++        chmod +x <SOURCE_DIR>/subprojects/libdisplay-info/tool/gen-search-table.py
+     CONFIGURE_COMMAND
+         sed -i s/private://g
+             src/dxvk/dxvk_shader.h &&
 diff --git a/cmake/FetchPeParse.cmake b/cmake/FetchPeParse.cmake
 index df7879b..31a4b87 100644
 --- a/cmake/FetchPeParse.cmake
