@@ -33,7 +33,12 @@ in llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
   version = "0.0.31";
 
-  src = ./.;
+  src = fetchFromGitHub {
+    owner = "PancakeTAS";
+    repo = "lsfg-vk";
+    rev = "3ec418fd0f802f245bc31511d33c94a25d045ae8";
+    hash = "sha256-xMRrqKaqKxzOjEFcLas6nRgvIpaZ94ca9BZemEPsIbU=";
+  };
 
   # we need to unvendor dxvk and pe-parse which would normally be downloaded from git during buildtime in the cmakefiles
   patches = [
