@@ -10,13 +10,13 @@
 
 in llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
-  version = "unstable-2025-07-13-f998647";
+  version = "unstable-2025-07-14-83b869b";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "f998647d74051467e39de9de2df2ff9a5996db5f";
-    hash = "sha256-X708aKFz3wqSVYsMvCKsY7kqi+2LTewnoOMrXFPVEPY=";
+    rev = "83b869b0c4d4cd4da2e760126242c6ed76bafec8";
+    hash = "sha256-LN6DkLN6pMmYRaj+TsAL3PLqINMeYOhQ2Kw16bRF/Q4=";
     fetchSubmodules = true;
   };
 
