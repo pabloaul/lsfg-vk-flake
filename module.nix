@@ -1,13 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.services.lsfg-vk;
-  lsfg-vk = pkgs.callPackage ./default.nix {};
+  lsfg-vk = pkgs.callPackage ./default.nix { };
 in
 {
   options = {
     services.lsfg-vk = {
       enable = lib.mkEnableOption "Lossless Scaling Frame Generation Vulkan layer";
-      
+
       package = lib.mkOption {
         type = lib.types.package;
         description = "The lsfg-vk package to use";
@@ -30,9 +35,9 @@ in
     environment.systemPackages = [ cfg.package ];
 
     # Installs the Vulkan implicit layer system-wide
-    environment.etc."vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json".source = 
+    environment.etc."vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json".source =
       "${cfg.package}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
 
-    environment.sessionVariables.LSFG_DLL_PATH = lib.mkIf (cfg.losslessDLLFile != null) cfg.losslessDLLFile; 
+    environment.sessionVariables.LSFG_DLL_PATH = lib.mkIf (cfg.losslessDLLFile != null) cfg.losslessDLLFile;
   };
 }

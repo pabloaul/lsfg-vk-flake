@@ -1,14 +1,15 @@
-{ lib
-, fetchFromGitHub
-, cmake
-, ninja
-, vulkan-headers
-, vulkan-loader
-, llvmPackages
-, spirv-headers
-}: let
+{
+  lib,
+  fetchFromGitHub,
+  cmake,
+  ninja,
+  vulkan-headers,
+  vulkan-loader,
+  llvmPackages,
+  spirv-headers,
+}:
 
-in llvmPackages.stdenv.mkDerivation {
+llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
   version = "unstable-2025-07-14-83b869b";
 
@@ -40,6 +41,7 @@ in llvmPackages.stdenv.mkDerivation {
   ];
 
   meta = with lib; {
+    description = "Vulkan layer for frame generation (Requires Lossless Scaling install)";
     homepage = "https://github.com/PancakeTAS/lsfg-vk/";
     license = licenses.mit;
     platforms = platforms.linux;
