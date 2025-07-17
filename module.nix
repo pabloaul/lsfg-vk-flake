@@ -13,6 +13,15 @@ in
         description = "The lsfg-vk package to use";
         default = lsfg-vk;
       };
+
+      losslessDLLFile = lib.mkOption {
+        type = with lib.types; nullOr str;
+        default = null;
+        description = ''
+          Sets the LSFG_DLL_PATH environment variable.
+          Required if Lossless Scaling isn't installed in a standard location
+        '';
+      };
     };
   };
 
@@ -22,5 +31,7 @@ in
     # Installs the Vulkan implicit layer system-wide
     environment.etc."vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json".source = 
       "${cfg.package}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
+
+    environment.sessionVariables.LSFG_DLL_PATH = lib.mkIf (cfg.losslessDLLFile != null) cfg.losslessDLLFile; 
   };
 }
