@@ -17,6 +17,7 @@ in
       losslessDLLFile = lib.mkOption {
         type = with lib.types; nullOr str;
         default = null;
+        example = "/home/user/games/Lossless Scaling/Lossless.dll";
         description = ''
           Sets the LSFG_DLL_PATH environment variable.
           Required if Lossless Scaling isn't installed in a standard location
