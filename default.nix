@@ -7,17 +7,23 @@
   vulkan-loader,
   llvmPackages,
   spirv-headers,
+  libX11,
+  libXrandr,
+  libXinerama,
+  libXcursor,
+  libXi,
+  libglvnd,
 }:
 
 llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
-  version = "unstable-2025-07-14-83b869b";
+  version = "unstable-2025-07-18-53b4438";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "83b869b0c4d4cd4da2e760126242c6ed76bafec8";
-    hash = "sha256-LN6DkLN6pMmYRaj+TsAL3PLqINMeYOhQ2Kw16bRF/Q4=";
+    rev = "53b4438a2a567c26d739c856329c1a4d13aa1968";
+    hash = "sha256-Ze4PBu3W7wKbYAMwQIdV2LBI8xWpYWvNJ3qIId2ByPU=";
     fetchSubmodules = true;
   };
 
@@ -38,6 +44,12 @@ llvmPackages.stdenv.mkDerivation {
     vulkan-headers
     vulkan-loader
     spirv-headers
+    libX11
+    libXrandr
+    libXinerama
+    libXcursor
+    libXi
+    libglvnd
   ];
 
   meta = with lib; {
