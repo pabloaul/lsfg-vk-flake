@@ -31,10 +31,11 @@ outputs = {nixpkgs, lsfg-vk-flake, ...}: {
 
 And then you should be able to enable this in your system config using:
 ```nix 
-services.lsfg-vk.enable = true;
-
-# optional but recommended:
-environment.variables = { LSFG_DLL_PATH = "<ABSOLUTE_PATH_TO>/Lossless.dll"; }
+services.lsfg-vk = {
+  enable = true;
+  # optional but recommended:
+  losslessDLLFile = "<ABSOLUTE_PATH_TO>/Lossless.dll";
+};
 ```
 
 ### User install (manual)
