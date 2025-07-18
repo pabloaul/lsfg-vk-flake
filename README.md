@@ -3,7 +3,7 @@ Nix flake for using [Lossless Scaling's frame generation on Linux](https://githu
 
 >[!IMPORTANT]
 > You need to have Lossless Scaling installed on Steam!
-> In case it is not installed on the default Steam drive, you may want to consider setting the environment variable ``LSFG_DLL_PATH=<ABSOLUTE_PATH_TO>/Lossless.dll``
+> In case it is not installed on the default Steam drive, you may want to consider setting the correct path in the lsfg-vk config.
 
 ## Installation
 ### System-wide (NixOS module)
@@ -31,11 +31,7 @@ outputs = {nixpkgs, lsfg-vk-flake, ...}: {
 
 And then you should be able to enable this in your system config using:
 ```nix 
-services.lsfg-vk = {
-  enable = true;
-  # optional but recommended:
-  losslessDLLFile = "<ABSOLUTE_PATH_TO>/Lossless.dll";
-};
+services.lsfg-vk.enable = true;
 ```
 
 ### User install (manual)
