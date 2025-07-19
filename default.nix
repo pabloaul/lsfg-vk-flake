@@ -13,17 +13,21 @@
   libXcursor,
   libXi,
   libglvnd,
+  libxkbcommon,
+  wayland-scanner,
+  pkg-config,
+  wayland,
 }:
 
 llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
-  version = "unstable-2025-07-18-53b4438";
+  version = "unstable-2025-07-19-dd5190a";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "53b4438a2a567c26d739c856329c1a4d13aa1968";
-    hash = "sha256-Ze4PBu3W7wKbYAMwQIdV2LBI8xWpYWvNJ3qIId2ByPU=";
+    rev = "dd5190aa680a7543143e724a100bd5d6e9898dd7";
+    hash = "sha256-2WrUtjUG8l3tSElDYfhvi4lrFUG1Oh5M7DAEX2mFh5s=";
     fetchSubmodules = true;
   };
 
@@ -38,6 +42,8 @@ llvmPackages.stdenv.mkDerivation {
     llvmPackages.libllvm # needed for release builds
     cmake
     ninja
+    wayland-scanner
+    pkg-config
   ];
 
   buildInputs = [
@@ -50,6 +56,8 @@ llvmPackages.stdenv.mkDerivation {
     libXcursor
     libXi
     libglvnd
+    libxkbcommon
+    wayland
   ];
 
   meta = with lib; {
