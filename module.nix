@@ -31,6 +31,17 @@ in
               Required if Lossless Scaling isn't installed in a standard location
             '';
           };
+
+      configFile = lib.mkOption
+          {
+            type = with lib.types; nullOr str;
+            default = null;
+            example = "/home/user/.config/lsfg-vk/conf.toml";
+            description = ''
+              Sets the LSFG_CONFIG environment variable.
+              Required if the lsfg-vk configuration file isn't stored at the standard location
+            '';
+          };
     };
   };
 
@@ -42,5 +53,7 @@ in
       "${cfg.package}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
 
     environment.sessionVariables.LSFG_DLL_PATH = lib.mkIf (cfg.losslessDLLFile != null) cfg.losslessDLLFile;
+
+    environment.sessionVariables.LSFG_CONFIG = lib.mkIf (cfg.configFile != null) cfg.configFile;
   };
 }
