@@ -9,7 +9,7 @@ Nix flake for using [Lossless Scaling's frame generation on Linux](https://githu
 ### System-wide (NixOS module)
 This approach will install an implicit layer to ``/etc/vulkan/implicit_layer.d/``
 
-Add this repository to your flake inputs, output function and module list:
+Add this to your flake inputs, output function and modules list:
 ```nix
 inputs = {
   ...
@@ -29,25 +29,39 @@ outputs = {nixpkgs, lsfg-vk-flake, ...}: {
 }
 ```
 
-And then you should be able to enable this in your system config using:
+And then enable this in your system config:
 ```nix 
 services.lsfg-vk.enable = true;
 ```
 
 ### User install (manual)
 1. Build the library:
-  ``nix build``
-3. Create the following path in case it does not exist:
-  ``mkdir -p $HOME/.local/share/vulkan/implicit_layer.d`` 
+  ```bash
+  nix build
+  ```
+2. Create the following path in case it does not exist:
+  ```bash
+  mkdir -p $HOME/.local/share/vulkan/implicit_layer.d
+  ```
 3. Symlink the build results to your $HOME/.local/
-  ``cp -ifrsv "$(readlink -f ./result)"/* $HOME/.local/``
+  ```bash
+  cp -ifrsv "$(readlink -f ./result)"/* $HOME/.local/
+  ```
 
 ## Usage
 Run a Vulkan application with the environment variable ``ENABLE_LSFG=1`` set.
 
-Example: ``ENABLE_LSFG=1 vkcube`` and look for output like this in the terminal: lsfg-vk(...): ...
+Example:
+```bash
+ENABLE_LSFG=1 vkcube
+```
 
-You can also enable it per game on Steam by adding this to the launch options of a game like this: 
-  ``ENABLE_LSFG=1 %COMMAND%``
+To confirm that it is working, look for output like this in the terminal: lsfg-vk(...): ...
 
-There are many more options that can be set. Consult the original repository for further documentation.
+You can also enable it per game on Steam by adding this to the launch options: 
+```
+ENABLE_LSFG=1 %COMMAND%
+```
+
+>[!NOTE]
+> If the environment variable is set but the program doesn't show any lsfg-vk output, you may need to add the application to your lsfg-vk configuration file at `~/.config/lsfg-vk/config.toml`. Read more about it in the [Wiki](https://github.com/PancakeTAS/lsfg-vk/wiki/Configuring-lsfg-vk)
