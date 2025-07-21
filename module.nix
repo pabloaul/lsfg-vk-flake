@@ -19,9 +19,7 @@ in
         default = lsfg-vk;
       };
 
-      losslessDLLFile =
-        lib.warn "losslessDLLFile is deprecated and will only be used by lsfg-vk if LSFG_LEGACY is set."
-          lib.mkOption
+      losslessDLLFile = lib.mkOption
           {
             type = with lib.types; nullOr str;
             default = null;
@@ -45,15 +43,23 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    environment.systemPackages = [ cfg.package ];
+  config = lib.mkIf cfg.enable (
+    lib.mkMerge [
+      {
+        environment.systemPackages = [ cfg.package ];
 
-    # Installs the Vulkan implicit layer system-wide
-    environment.etc."vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json".source =
-      "${cfg.package}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
-
-    environment.sessionVariables.LSFG_DLL_PATH = lib.mkIf (cfg.losslessDLLFile != null) cfg.losslessDLLFile;
-
-    environment.sessionVariables.LSFG_CONFIG = lib.mkIf (cfg.configFile != null) cfg.configFile;
-  };
+        # Installs the Vulkan implicit layer system-wide
+        environment.etc."vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json".source =
+          "${cfg.package}/share/vulkan/implicit_layer.d/VkLayer_LS_frame_generation.json";
+      }
+      (lib.mkIf (cfg.losslessDLLFile != null) {
+        environment.sessionVariables.LSFG_DLL_PATH =
+          lib.warn "losslessDLLFile is deprecated and will only be used by lsfg-vk if LSFG_LEGACY is set."
+          cfg.losslessDLLFile;
+      })
+      (lib.mkIf (cfg.configFile != null) {
+        environment.sessionVariables.LSFG_CONFIG = cfg.configFile;
+      })
+    ]
+  );
 }
