@@ -6,7 +6,6 @@
   vulkan-headers,
   vulkan-loader,
   llvmPackages,
-  libX11,
   libXrandr,
   libXinerama,
   libXcursor,
@@ -35,9 +34,7 @@ llvmPackages.stdenv.mkDerivation {
   ];
 
   nativeBuildInputs = [
-    # clang-tools needs to come before clang so it can locate Vulkan headers correctly
     llvmPackages.clang-tools
-    llvmPackages.clang
     llvmPackages.libllvm # needed for release builds
     cmake
     ninja
@@ -48,7 +45,6 @@ llvmPackages.stdenv.mkDerivation {
   buildInputs = [
     vulkan-headers
     vulkan-loader
-    libX11
     libXrandr
     libXinerama
     libXcursor
@@ -59,7 +55,7 @@ llvmPackages.stdenv.mkDerivation {
   ];
 
   meta = with lib; {
-    description = "Vulkan layer for frame generation (Requires Lossless Scaling install)";
+    description = "Vulkan layer for frame generation (Requires owning Lossless Scaling)";
     homepage = "https://github.com/PancakeTAS/lsfg-vk/";
     license = licenses.mit;
     platforms = platforms.linux;
