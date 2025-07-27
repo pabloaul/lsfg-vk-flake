@@ -18,6 +18,11 @@ llvmPackages.stdenv.mkDerivation {
     fetchSubmodules = true;
   };
 
+  postPatch = ''
+    substituteInPlace VkLayer_LS_frame_generation.json \
+      --replace "liblsfg-vk.so" "$out/lib/liblsfg-vk.so"
+  '';
+
   cmakeFlags = [
     "-DCMAKE_BUILD_TYPE=Release"
   ];
