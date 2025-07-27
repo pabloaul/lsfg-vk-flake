@@ -31,7 +31,10 @@ outputs = {nixpkgs, lsfg-vk-flake, ...}: {
 
 And then enable this in your system config:
 ```nix 
-services.lsfg-vk.enable = true;
+services.lsfg-vk = {
+  enable = true;
+  ui.enable = true; # installs gui for configuring lsfg-vk
+};
 ```
 
 ### User install (manual)
