@@ -8,13 +8,13 @@
 
 llvmPackages.stdenv.mkDerivation {
   pname = "lsfg-vk";
-  version = "0.9.0-2025-07-26-3c77bad";
+  version = "0.9.0-2025-07-30-b4f2833";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "3c77bad7941e2699a797b2741b64b8d907118bb6";
-    hash = "sha256-ZAtTzdSx81NK2ABSEIDOeYUgJDH4ROMApDSlg8U140k=";
+    rev = "b4f2833785845c4c08dd78e9a793cfd56d8752e4";
+    hash = "sha256-zepZicQ2D0Fx9qxyNyYbOqmEnJVrrsb+qiZ3OXvL8Rs=";
     fetchSubmodules = true;
   };
 
