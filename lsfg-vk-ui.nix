@@ -18,7 +18,7 @@ rustPlatform.buildRustPackage {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
     rev = "7113d7d02da9fc9df5cb3b03230d1f7de86f7056";
-    hash = "sha256-hWpuPH7mKbeMaLaRUwtlkNLy4lOnJEe+yd54L7y2kV0=";
+    hash = "sha256-nIyVOil/gHC+5a+sH3vMlcqVhixjJaGWqXbyoh2Nqyw=";
   };
 
   cargoHash = "sha256-hIQRS/egIDU5Vu/1KWHtpt4S26h+9GadVr+lBAG2LDg=";
