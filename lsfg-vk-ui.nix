@@ -7,17 +7,17 @@
   pango,
   gdk-pixbuf,
   gtk4,
-  libadwaita
+  libadwaita,
 }:
 
-rustPlatform.buildRustPackage {
+rustPlatform.buildRustPackage rec {
   pname = "lsfg-vk-ui";
   version = "1.0.0";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "7113d7d02da9fc9df5cb3b03230d1f7de86f7056";
+    tag = "v${version}";
     hash = "sha256-nIyVOil/gHC+5a+sH3vMlcqVhixjJaGWqXbyoh2Nqyw=";
   };
 
@@ -37,11 +37,18 @@ rustPlatform.buildRustPackage {
     libadwaita
   ];
 
-  meta = with lib; {
-    description = "Graphical interface for lsfg-vk";
+  postInstall = ''
+    install -Dm444 $src/ui/rsc/gay.pancake.lsfg-vk-ui.desktop $out/share/applications/gay.pancake.lsfg-vk-ui.desktop
+    install -Dm444 $src/ui/rsc/icon.png $out/share/icons/hicolor/256x256/apps/gay.pancake.lsfg-vk-ui.png
+  '';
+
+  meta = {
+    description = "Graphical configuration interface for lsfg-vk";
     homepage = "https://github.com/PancakeTAS/lsfg-vk/";
-    license = licenses.mit;
-    platforms = platforms.linux;
+    changelog = "https://github.com/PancakeTAS/lsfg-vk/releases/tag/${src.tag}";
+    license = lib.licenses.mit;
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ pabloaul ];
     mainProgram = "lsfg-vk-ui";
   };
 }

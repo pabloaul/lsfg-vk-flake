@@ -6,26 +6,22 @@
   llvmPackages,
 }:
 
-llvmPackages.stdenv.mkDerivation {
+llvmPackages.stdenv.mkDerivation rec {
   pname = "lsfg-vk";
   version = "1.0.0";
 
   src = fetchFromGitHub {
     owner = "PancakeTAS";
     repo = "lsfg-vk";
-    rev = "7113d7d02da9fc9df5cb3b03230d1f7de86f7056";
+    tag = "v${version}";
     hash = "sha256-hWpuPH7mKbeMaLaRUwtlkNLy4lOnJEe+yd54L7y2kV0=";
     fetchSubmodules = true;
   };
 
   postPatch = ''
     substituteInPlace VkLayer_LS_frame_generation.json \
-      --replace "liblsfg-vk.so" "$out/lib/liblsfg-vk.so"
+      --replace-fail "liblsfg-vk.so" "$out/lib/liblsfg-vk.so"
   '';
-
-  cmakeFlags = [
-    "-DCMAKE_BUILD_TYPE=Release"
-  ];
 
   nativeBuildInputs = [
     llvmPackages.clang-tools
@@ -37,10 +33,12 @@ llvmPackages.stdenv.mkDerivation {
     vulkan-headers
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Vulkan layer for frame generation (Requires owning Lossless Scaling)";
     homepage = "https://github.com/PancakeTAS/lsfg-vk/";
-    license = licenses.mit;
-    platforms = platforms.linux;
+    changelog = "https://github.com/PancakeTAS/lsfg-vk/releases/tag/${src.tag}";
+    license = lib.licenses.mit;
+    platforms = lib.platforms.linux;
+    maintainers = with lib.maintainers; [ pabloaul ];
   };
 }
