@@ -6,10 +6,10 @@ Nix flake for using [Lossless Scaling's frame generation on Linux](https://githu
 > In case it is not installed on the default Steam drive, you may want to consider setting the correct path in the lsfg-vk config.
 
 ## Installation
-### System-wide (NixOS module)
+### System-wide (NixOS)
 This approach will install an implicit layer to ``/etc/vulkan/implicit_layer.d/``
 
-Add this to your flake inputs, output function and modules list:
+Add this to your flake inputs, output function and configuration:
 ```nix
 inputs = {
   ...
@@ -21,20 +21,12 @@ outputs = {nixpkgs, lsfg-vk-flake, ...}: {
 
   nixosConfigurations.hostname = nixpkgs.lib.nixosSystem {
     ...
-    modules = [
-      ...
-      lsfg-vk-flake.nixosModules.default
+    environment.systemPackages = [
+      lsfg-vk-flake.packages.${system}.lsfg-vk
+      lsfg-vk-flake.packages.${system}.lsfg-vk-ui
     ];
   };
 }
-```
-
-And then enable this in your system config:
-```nix 
-services.lsfg-vk = {
-  enable = true;
-  ui.enable = true; # installs gui for configuring lsfg-vk
-};
 ```
 
 ### User install (manual)
@@ -61,7 +53,7 @@ ENABLE_LSFG=1 vkcube
 
 To confirm that it is working, look for output like this in the terminal: lsfg-vk(...): ...
 
-You can also enable it per game on Steam by adding this to the launch options: 
+You can also enable it per game on Steam by adding this to the launch options:
 ```
 ENABLE_LSFG=1 %COMMAND%
 ```
