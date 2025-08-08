@@ -1,11 +1,16 @@
 # lsfg-vk-flake
-Nix flake for using [Lossless Scaling's frame generation on Linux](https://github.com/PancakeTAS/lsfg-vk)
+Nix flake for using bleeding edge [Lossless Scaling's frame generation on Linux](https://github.com/PancakeTAS/lsfg-vk)
 
 >[!IMPORTANT]
 > You need to have Lossless Scaling installed on Steam!
 > In case it is not installed on the default Steam drive, you may want to consider setting the correct path in the lsfg-vk config.
 
 ## Installation
+
+>[!NOTE]
+> Nixpgks has packages for lsfg-vk & lsfg-vk-ui. This Flake provides packaging of the lsfg-vk Git repository.
+> It's recommended to use the packages from nixpkgs.
+
 ### System-wide (NixOS)
 This approach will install an implicit layer to ``/etc/vulkan/implicit_layer.d/``
 
