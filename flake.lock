@@ -1,12 +1,30 @@
 {
   "nodes": {
+    "lsfg-vk": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1754586429,
+        "narHash": "sha256-4kEl+N2f4TSNw4QsRT4hFEN3zRREaeZdnD9ksG4uCPY=",
+        "ref": "refs/heads/develop",
+        "rev": "2f488a42efb1ab2188b04c41ee558c0989f5afed",
+        "revCount": 266,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/PancakeTAS/lsfg-vk.git"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/PancakeTAS/lsfg-vk.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1753694789,
-        "narHash": "sha256-cKgvtz6fKuK1Xr5LQW/zOUiAC0oSQoA9nOISB0pJZqM=",
+        "lastModified": 1754498491,
+        "narHash": "sha256-erbiH2agUTD0Z30xcVSFcDHzkRvkRXOQ3lb887bcVrs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "dc9637876d0dcc8c9e5e22986b857632effeb727",
+        "rev": "c2ae88e026f9525daf89587f3cbee584b92b6134",
         "type": "github"
       },
       "original": {
@@ -18,6 +36,7 @@
     },
     "root": {
       "inputs": {
+        "lsfg-vk": "lsfg-vk",
         "nixpkgs": "nixpkgs"
       }
     }
