@@ -1,12 +1,12 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-  outputs = { nixpkgs, ... }: 
+  outputs = { nixpkgs, ... }:
   let
     forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ];
-  in 
+  in
   {
-    packages = forAllSystems (system: { 
+    packages = forAllSystems (system: {
       default = nixpkgs.legacyPackages.${system}.callPackage ./lsfg-vk.nix { };
       lsfg-vk = nixpkgs.legacyPackages.${system}.callPackage ./lsfg-vk.nix { };
       lsfg-vk-ui = nixpkgs.legacyPackages.${system}.callPackage ./lsfg-vk-ui.nix { };
