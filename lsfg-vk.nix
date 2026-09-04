@@ -1,6 +1,6 @@
 {
   lib,
-  fetchFromGitHub,
+  fetchgit,
   cmake,
   vulkan-headers,
   llvmPackages,
@@ -8,20 +8,19 @@
 
 llvmPackages.stdenv.mkDerivation rec {
   pname = "lsfg-vk";
-  version = "1.0.0";
+  version = "2.0.0-rc1";
 
-  src = fetchFromGitHub {
-    owner = "PancakeTAS";
-    repo = "lsfg-vk";
-    tag = "v${version}";
-    hash = "sha256-hWpuPH7mKbeMaLaRUwtlkNLy4lOnJEe+yd54L7y2kV0=";
-    fetchSubmodules = true;
+  src = fetchgit {
+    url = "https://git.lsfg-vk.dev/lsfg-vk.git";
+    rev = "refs/tags/${version}";
+    hash = "sha256-+2Zslbt4A3opMsCgu3/BMA2PJm6vzIFwhsS9Iml9H3Y=";
   };
 
-  postPatch = ''
-    substituteInPlace VkLayer_LS_frame_generation.json \
-      --replace-fail "liblsfg-vk.so" "$out/lib/liblsfg-vk.so"
-  '';
+  cmakeFlags = [
+    (lib.cmakeFeature "LSFGVK_LAYER_LIBRARY_PATH" "${placeholder "out"}/lib/liblsfg-vk-layer.so")
+    (lib.cmakeBool "LSFGVK_MANAGED" true)
+    (lib.cmakeBool "LSFGVK_BUILD_UI" false)
+  ];
 
   nativeBuildInputs = [
     llvmPackages.clang-tools
@@ -35,8 +34,7 @@ llvmPackages.stdenv.mkDerivation rec {
 
   meta = {
     description = "Vulkan layer for frame generation (Requires owning Lossless Scaling)";
-    homepage = "https://github.com/PancakeTAS/lsfg-vk/";
-    changelog = "https://github.com/PancakeTAS/lsfg-vk/releases/tag/${src.tag}";
+    homepage = "https://git.lsfg-vk.dev/lsfg-vk/";
     license = lib.licenses.mit;
     platforms = lib.platforms.linux;
     maintainers = with lib.maintainers; [ pabloaul ];
