@@ -1,9 +1,12 @@
 # lsfg-vk-flake
-Nix flake for using [Lossless Scaling's frame generation on Linux](https://github.com/PancakeTAS/lsfg-vk)
+Nix flake for using [Lossless Scaling's frame generation on Linux](https://git.lsfg-vk.dev/lsfg-vk/)
 
->[!IMPORTANT]
+> [!IMPORTANT]
 > You need to have Lossless Scaling installed on Steam!
 > In case it is not installed on the default Steam drive, you may want to consider setting the correct path in the lsfg-vk config.
+>
+> lsfg-vk 2 uses a new configuration format. Back up and migrate an existing version 1 `conf.toml` before opening it with the version 2 UI.
+> The former `services.lsfg-vk.losslessDLLFile` option has also been removed; configure the DLL path in `conf.toml` instead.
 
 ## Installation
 ### System-wide (NixOS module)
@@ -52,19 +55,24 @@ services.lsfg-vk = {
   ```
 
 ## Usage
-Run a Vulkan application with the environment variable ``ENABLE_LSFG=1`` set.
+Create a profile with `lsfg-vk-ui`, then associate it with a game's executable using the profile's **Active In** setting.
 
-Example:
+Alternatively, select a profile explicitly with `LSFGVK_PROFILE`:
+
 ```bash
-ENABLE_LSFG=1 vkcube
+LSFGVK_PROFILE='My Profile' vkcube
 ```
 
-To confirm that it is working, look for output like this in the terminal: lsfg-vk(...): ...
+For a Steam game, use:
 
-You can also enable it per game on Steam by adding this to the launch options: 
 ```
-ENABLE_LSFG=1 %COMMAND%
+LSFGVK_PROFILE='My Profile' %command%
 ```
 
->[!NOTE]
-> If the environment variable is set but the program doesn't show any lsfg-vk output, you may need to add the application to your lsfg-vk configuration file at `~/.config/lsfg-vk/config.toml`. Read more about it in the [Wiki](https://github.com/PancakeTAS/lsfg-vk/wiki/Configuring-lsfg-vk)
+To confirm that the layer is installed correctly, run:
+
+```bash
+lsfg-vk-cli validate
+```
+
+The default configuration file is `~/.config/lsfg-vk/conf.toml`. See the [upstream configuration documentation](https://lsfg-vk.dev/docs/configuration/) for profile and environment-variable details.
